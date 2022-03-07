@@ -58,3 +58,4 @@ config.h
 # KiCad backup files
 *.zip
 
+kicad/#auto_saved_files#
