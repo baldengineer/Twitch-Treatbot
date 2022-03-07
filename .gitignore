@@ -59,3 +59,4 @@ config.h
 *.zip
 
 kicad/#auto_saved_files#
+kicad/schematic-positions-to-layout.debug
