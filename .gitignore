@@ -1,4 +1,5 @@
 .gitattributes
+.gitignore
 
 # Prerequisites
 *.d
@@ -60,3 +61,4 @@ config.h
 
 kicad/#auto_saved_files#
 kicad/schematic-positions-to-layout.debug
+*.7z
