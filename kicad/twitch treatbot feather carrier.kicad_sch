@@ -1050,8 +1050,10 @@
     (uuid e3b4e40e-f725-41d7-8749-fc2bc654905f)
   )
 
+  (no_connect (at 55.88 54.61) (uuid 00ef5090-2869-42bb-b1ee-12d7cd35a863))
   (no_connect (at 81.28 57.15) (uuid 094add46-f448-4914-9fb0-292b35efefd0))
   (no_connect (at 81.28 67.31) (uuid 094add46-f448-4914-9fb0-292b35efefd2))
+  (no_connect (at 55.88 52.07) (uuid 13ce7ef4-9e55-4573-806a-6f00d7bd7c9c))
   (no_connect (at 55.88 62.23) (uuid 14864bdb-5b2a-40dc-90a1-477cc53ed525))
   (no_connect (at 55.88 64.77) (uuid 14864bdb-5b2a-40dc-90a1-477cc53ed526))
   (no_connect (at 55.88 67.31) (uuid 14864bdb-5b2a-40dc-90a1-477cc53ed527))
@@ -1263,10 +1265,6 @@
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 66cf6d57-9272-412d-beca-a5a95da8bbcf)
   )
-  (wire (pts (xy 44.45 54.61) (xy 55.88 54.61))
-    (stroke (width 0) (type default) (color 0 0 0 0))
-    (uuid 6e30d2ec-2250-4859-9d0d-20b3e6e99334)
-  )
   (wire (pts (xy 129.54 44.45) (xy 135.255 44.45))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 7810fb3e-9e44-47c3-b572-fe9c145ef0a5)
@@ -1318,10 +1316,6 @@
   (wire (pts (xy 101.6 131.445) (xy 111.76 131.445))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid a0d7381a-873e-4b97-b885-178ac677ca6f)
-  )
-  (wire (pts (xy 44.45 52.07) (xy 55.88 52.07))
-    (stroke (width 0) (type default) (color 0 0 0 0))
-    (uuid a185090f-b7f3-48ac-9c8c-85b52d09b856)
   )
   (wire (pts (xy 156.845 116.205) (xy 143.51 116.205))
     (stroke (width 0) (type default) (color 0 0 0 0))
@@ -1480,8 +1474,8 @@
     (uuid fc0c55c8-6ce7-4d8d-bc07-a9c777b9fc57)
   )
 
-  (text "Move STEP signal from IO0 to IO15.\nIO0 should have an on-board led"
-    (at 31.75 39.37 0)
+  (text "IO15 is used during boot, it shouldn't be used as an input.\n\n(Could have been an output)"
+    (at 19.685 43.18 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 5c0f2382-06c7-4d72-9486-95bec875e167)
   )
