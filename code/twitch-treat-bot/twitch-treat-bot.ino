@@ -10,25 +10,23 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+// Blinky Panel (thanks @int_pirate!)
 #include "neo-panel.h"
 
-// So that we can see what's going on. hey hey hey
+// OLED Display
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-
-// OLED Display
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
-
-// todo: create baldengineer logo for OLEDs
-
+// TODO: create baldengineer logo for OLEDs
 
 // Library for TMC2208
 #include <TMCStepper.h>
 
 
+// Keep Alive Things
 unsigned long previous_indicator_millis = millis();
 unsigned long indicator_interval = 1000;
 bool arm_indicator_countdown = false;
@@ -43,6 +41,9 @@ const byte MSG_BUFFER_SIZE = 50;
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
 int previous_mqtt_status = 0;
+
+
+
 
 void setup_wifi() {
   delay(10);
@@ -61,24 +62,20 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-// MQTT PubSub callback
-// dispense-treat-toggle
-// treat-counter-text
 
 void start_treats_cycle() {
   previous_indicator_millis = millis();
   arm_indicator_countdown = true;
   neo_panel_enable = true;
 
-  // display.clearDisplay();
-  // display.setTextSize(2);             // Normal 1:1 pixel scale
-  // display.setTextColor(SSD1306_WHITE);        // Draw white text
-  // display.setCursor(0, 0);            // Start at top-left corner
-  display.setCursor(0,oled_row_counter());
+  display.setCursor(0,oled_next_row());
   display.println(F("Treats for Baldee"));
   display.display(); // kinda important if you want to actually want to see anything... just sayin'
 }
 
+// MQTT PubSub callback
+// dispense-treat-toggle
+// treat-counter-text
 void callback(char* topic, byte* payload, unsigned int length) {
   String topic_str = topic;
 
@@ -227,18 +224,18 @@ String mqtt_status_str(int state) {
 
 }
 
-uint8_t oled_row_counter() {
+// clearing the row here, depsite the name of the function
+uint8_t oled_next_row() {
   static uint8_t current_row = 0;
   static uint8_t line_height = (SCREEN_HEIGHT/4);
+  
   current_row = current_row + line_height;
+  
   if (current_row >= SCREEN_HEIGHT)
     current_row = 0;
-  // clearing the row here, depsite the name of the function
-  // for reference:
-  // void drawRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h, uint16_t color);
-  // void fillRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h, uint16_t color);
+  
   if (current_row == 0)
-    display.fillRect(0,current_row, SCREEN_WIDTH, SCREEN_HEIGHT, SSD1306_BLACK);
+    display.fillRect(0,current_row, SCREEN_WIDTH, SCREEN_HEIGHT, SSD1306_BLACK); // void fillRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h, uint16_t color);
   else
     display.fillRect(0,current_row, SCREEN_WIDTH, line_height, SSD1306_BLACK);
 
@@ -261,11 +258,11 @@ void display_mqtt_state(bool force_update) {
   if (force_update || (previous_client_state != current_client_state)) {
     previous_client_state = current_client_state;
 
-    display.setCursor(0,oled_row_counter());
+    display.setCursor(0,oled_next_row());
     display.println(mqtt_status_str(current_client_state));
     display.display();
 
-    Serial.print("["); Serial.print(millis()); Serial.print("]"); Serial.println(mqtt_status_str(current_client_state));
+    Serial.print(F("[")); Serial.print(millis()); Serial.print(F("]")); Serial.println(mqtt_status_str(current_client_state));
   }
 }
 
@@ -279,21 +276,21 @@ void setup() {
 
   Serial.print(F("Setting up OLED..."));
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
-    Serial.println(F("SSD1306 allocation failed"));
-    while (1);
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
+    Serial.println(F("SSD1306 allocation failed!"));
+    //while (1); 
+  } else {
+    Serial.println(F("done"));
   }
-  Serial.println(F("done"));
 
 //  FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
 //  FastLED.setBrightness(  BRIGHTNESS );
-
   
   oled_clear();
   display.println(F("TreatBot 3"));
   display.display(); // kinda important if you want to actually want to see anything... just sayin'
 
-  display.setCursor(0,oled_row_counter());
+  display.setCursor(0,oled_next_row());
   display.println(F("WiFi..."));
   display.display();
   Serial.print(F("Setting up WiFi..."));
@@ -302,7 +299,7 @@ void setup() {
   Serial.println(F("done"));
 
   // wait for a connection
-  display.setCursor(0,oled_row_counter());
+  display.setCursor(0,oled_next_row());
   display.println(F("MQTT..."));
   display.display();
   Serial.print(F("Attempting MQTT..."));
@@ -316,11 +313,12 @@ void setup() {
     display_mqtt_state(false);
     delay(250);
   }
+
   display_mqtt_state(false);
   Serial.println(F("done!"));
 
   Serial.print(F("Setting up Stepper Motor..."));
-  display.setCursor(0,oled_row_counter());
+  display.setCursor(0,oled_next_row());
   display.println(F("Stepper..."));
   display.display();
   pinMode(EN_PIN, OUTPUT);
@@ -335,16 +333,16 @@ void setup() {
 
   // Enable one according to your setup
   //SPI.begin();                    // SPI drivers
-  SERIAL_PORT.begin(115200);      // HW UART drivers
+  SERIAL_PORT.begin(115200);        // HW UART drivers
   //driver.beginSerial(115200);     // SW UART drivers
-  driver.begin();                 //  SPI: Init CS pins and possible SW SPI pins
+  driver.begin();                   //  SPI: Init CS pins and possible SW SPI pins
   // UART: Init SW UART (if selected) with default 115200 baudrate
-  driver.toff(5);                 // Enables driver in software
-  driver.rms_current(600);        // Set motor RMS current
-  driver.microsteps(16);          // Set microsteps to 1/16th
+  driver.toff(5);                   // Enables driver in software
+  driver.rms_current(600);          // Set motor RMS current
+  driver.microsteps(16);            // Set microsteps to 1/16th
   //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   //driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
-  driver.pwm_autoscale(true);     // Needed for stealthChop
+  driver.pwm_autoscale(true);       // Needed for stealthChop
   Serial.println(F("done!"));
 
   display_mqtt_state(true);
@@ -372,7 +370,7 @@ void processButtons() {
   if (previous_wiggle_button_state != current_wiggle_button_state) {
     previous_wiggle_button_state = current_wiggle_button_state;
     if (current_wiggle_button_state == PRESSED) {
-      display.setCursor(0,oled_row_counter());
+      display.setCursor(0,oled_next_row());
       display.println(F("Wiggle..."));
       display.display();
       Serial.println(F("Going to Wiggle Once"));
@@ -426,7 +424,6 @@ unsigned long neo_interval = (250); // isn't that 2? math is hard
 CRGB color_cycle[] = {CRGB::White, CRGB::Red, CRGB::Blue, CRGB::Green};
 byte excite_color_index = 0;
 
-
 void process_neo() {
   if (neo_panel_enable) {
     if (millis() - neo_previous_millis >= neo_interval) {
@@ -454,10 +451,9 @@ void process_neo() {
 }
 
 void loop() {
-  // Stay Connected
+  // Stay Connected and keep MQTT alive
   if (!client.connected())
     reconnect();
-  // Needed to keep MQTT alive
   client.loop();
   display_mqtt_state(false);
 
@@ -467,20 +463,21 @@ void loop() {
   if ((arm_indicator_countdown) && (millis() - previous_indicator_millis >= indicator_interval)) {
     // we received a 1 and decided to do something for a while
     // but that time is over
-
-    // display.clearDisplay();
-    // display.setTextSize(2);             // Normal 1:1 pixel scale
-    // display.setTextColor(SSD1306_WHITE);        // Draw white text
-    // display.setCursor(0, 0);            // Start at top-left corner
-      display.setCursor(0,oled_row_counter());
+    display.setCursor(0,oled_next_row());
     display.println(F("No moar treats"));
-    display.display(); // kinda important if you want to actually want to see anything... just sayin'
+    display.display();
 
     neo_panel_enable = false;
     arm_indicator_countdown = false; // stop checking if it is time to clear
     //treat_dispense->save(0); // turn off the LEDs through MQTT
     client.publish("dispense-treat-toggle", "0");
+  }
 
+  if (wiggle_once) {
+    wiggle_once = false;
+    // Serial.println(F("Wiggling Once"));
+    shake_em_mms(400, 250, 10);
+    display_mqtt_state(true);
   }
 
   if (cycle_once) {
@@ -495,12 +492,6 @@ void loop() {
     spin_for_treats(false);
   }
 
-  if (wiggle_once) {
-    wiggle_once = false;
-    // Serial.println(F("Wiggling Once"));
-    shake_em_mms(400, 250, 10);
-    display_mqtt_state(true);
-  }
   if (global_enable && (millis() - previous_millis_wait >= wait_interval)) {
     dispense_cycle();
     previous_millis_wait = millis();
