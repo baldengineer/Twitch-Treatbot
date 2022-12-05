@@ -159,8 +159,8 @@ bool global_enable = true;
 //#define SW_MOSI          66 // Software Master Out Slave In (MOSI)
 //#define SW_MISO          44 // Software Master In Slave Out (MISO)
 //#define SW_SCK           64 // Software Slave Clock (SCK)
-//#define SW_RX            13 // TMC2208/TMC2224 SoftwareSerial receive pin
-//#define SW_TX            15 // TMC2208/TMC2224 SoftwareSerial transmit pin
+//#define SW_RX            2 // TMC2208/TMC2224 SoftwareSerial receive pin
+//#define SW_TX            16 // TMC2208/TMC2224 SoftwareSerial transmit pin
 #define SERIAL_PORT Serial1 // TMC2208/TMC2224 HardwareSerial port
 //#define DRIVER_ADDRESS 0b00 // TMC2209 Driver address according to MS1 and MS2
 
@@ -283,8 +283,8 @@ void setup() {
     Serial.println(F("done"));
   }
 
-//  FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
-//  FastLED.setBrightness(  BRIGHTNESS );
+  // FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
+  // FastLED.setBrightness(  BRIGHTNESS );
   
   oled_clear();
   display.println(F("TreatBot 3"));
@@ -333,7 +333,7 @@ void setup() {
 
   // Enable one according to your setup
   //SPI.begin();                    // SPI drivers
-  SERIAL_PORT.begin(115200);        // HW UART drivers
+  //SERIAL_PORT.begin(115200);        // HW UART drivers
   //driver.beginSerial(115200);     // SW UART drivers
   driver.begin();                   //  SPI: Init CS pins and possible SW SPI pins
   // UART: Init SW UART (if selected) with default 115200 baudrate
