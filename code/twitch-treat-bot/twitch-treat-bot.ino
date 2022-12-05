@@ -69,7 +69,7 @@ void start_treats_cycle() {
   neo_panel_enable = true;
 
   display.setCursor(0,oled_next_row());
-  display.println(F("Treats for Baldee"));
+  display.println(F("Treats!!!"));
   display.display(); // kinda important if you want to actually want to see anything... just sayin'
 }
 
@@ -130,7 +130,7 @@ void reconnect() {
 }
 
 // the wiggle button!
-#define WIGGLE_BTN 15
+#define WIGGLE_BTN 3
 bool previous_wiggle_button_state = false;
 
 // automatic cycle timer
@@ -146,7 +146,7 @@ unsigned long blink_interval = 500;
 bool wiggle_once = false;
 bool run_once = false;
 bool cycle_once = false;
-bool global_enable = false;
+bool global_enable = true;
 
 // To make code easier to read with pull-ups
 #define PRESSED LOW
@@ -351,14 +351,10 @@ void setup() {
 bool shaft = false;
 
 void ledKeepAlive() {
-  if (global_enable == false) {
-    if (millis() - previous_millis_blink >= blink_interval) {
-      previous_millis_blink = millis();
-      led_blink_state = !led_blink_state;
-      digitalWrite(KEEPALIVE_LED_Pin, led_blink_state);
-    }
-  } else {
-    //  digitalWrite(13, global_enable);
+  if (millis() - previous_millis_blink >= blink_interval) {
+    previous_millis_blink = millis();
+    led_blink_state = !led_blink_state;
+    digitalWrite(KEEPALIVE_LED_Pin, led_blink_state);
   }
 }
 
@@ -384,6 +380,7 @@ void shake_em_mms(int amt, int speed, int shakes) {
   for (int x = 0; x < (shakes - 1); x++) {
     digitalWrite(DIR_PIN, shaft);
     driver.shaft(shaft);
+    yield();
     for (uint16_t i = amt; i > 0; i--) {
       processButtons();
       process_neo();
@@ -391,7 +388,9 @@ void shake_em_mms(int amt, int speed, int shakes) {
       delayMicroseconds(speed);
       digitalWrite(STEP_PIN, LOW);
       delayMicroseconds(speed);
+      yield();
     }
+    yield();
     shaft = !shaft;
   }
 }
@@ -404,17 +403,19 @@ void spin_for_treats(bool direction) {
   int speed = 1000;
 
   for (uint16_t i = amt; i > 0; i--) {
+    yield();
     processButtons();
     process_neo();
     digitalWrite(STEP_PIN, HIGH);
     delayMicroseconds(speed);
     digitalWrite(STEP_PIN, LOW);
     delayMicroseconds(speed);
+
   }
 }
 
 void dispense_cycle() {
-  shake_em_mms(400, 250, 10);
+  shake_em_mms(600, 250, 15);
   spin_for_treats(false);
 }
 
@@ -492,7 +493,8 @@ void loop() {
     spin_for_treats(false);
   }
 
-  if (global_enable && (millis() - previous_millis_wait >= wait_interval)) {
+  if (arm_indicator_countdown && (millis() - previous_millis_wait >= wait_interval)) {
+     // if (global_enable && (millis() - previous_millis_wait >= wait_interval)) {
     dispense_cycle();
     previous_millis_wait = millis();
   }
