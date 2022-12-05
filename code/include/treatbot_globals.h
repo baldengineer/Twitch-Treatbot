@@ -6,63 +6,42 @@
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
 
-// Prototypes
-void setup_wifi();
+// main.cpp
+extern unsigned long heartbeat_led_interval;
 
-// Keep Alive Things
-unsigned long previous_indicator_millis = millis();
-unsigned long indicator_interval = 1000;
-bool arm_indicator_countdown = false;
+// utils.cpp
+extern void long_delay(uint32_t milliseconds);
 
-// ESP8266 WiFi
-WiFiClientSecure espClient;    // oooo secure!
+// treatbot-wifi.cpp    
+extern void setup_wifi();
+extern void scan_wifi();
+extern WiFiClientSecure espClient;
 
-// PubSubClient
-PubSubClient client(espClient);
-unsigned long lastMsg = 0;
-const byte MSG_BUFFER_SIZE = 50;
-char msg[MSG_BUFFER_SIZE];
-int value = 0;
-int previous_mqtt_status = 0;
+// treatbot-mqtt.cpp
+extern void mqtt_callback(char* topic, byte* payload, unsigned int length);
+extern void mqtt_reconnect();
+extern String mqtt_status_str(int state);
+extern void display_mqtt_state(bool force_update);
+extern void setup_mqtt();
 
-// the wiggle button!
+// Blinky
+#define HEARTBEAT_LED_ON 50
+#define HEARTBEAT_LED_OFF 2500
+
+// Pin Assignments
 #define WIGGLE_BTN 3
-bool previous_wiggle_button_state = false;
+#define KEEPALIVE_LED_Pin 13
 
-// automatic cycle timer
-unsigned long previous_millis_wait = 2500;
-unsigned long wait_interval = 2500;
-
-// status LED timer
-bool led_blink_state = false;
-unsigned long previous_millis_blink;
-unsigned long blink_interval = 500;
-#define KEEPALIVE_LED_Pin 0
-
-bool wiggle_once = false;
-bool run_once = false;
-bool cycle_once = false;
-bool global_enable = true;
-
-// To make code easier to read with pull-ups
-#define PRESSED LOW
-#define NOT_PRESSED HIGH
-
-// ws2812 Related
-unsigned long neo_previous_millis = 0;
-unsigned long neo_interval = (250); // isn't that 2? math is hard
-
-// CRGB color_cycle[] = {CRGB::White, CRGB::Red, CRGB::Blue, CRGB::Green};
-// byte excite_color_index = 0;
-
-
-// Stepper related
-bool shaft = false;
+//  Stepper Motor
 #define EN_PIN           12 // Enable
 #define DIR_PIN          14 // Direction
 #define STEP_PIN         13 // Step
-#define R_SENSE 0.11f // Match to your driver
+//#define R_SENSE 0.11f // Match to your driver (not used)
 
+// Nice To Have
+#define BALD 0x1
+#define PRESSED LOW
+#define NOT_PRESSED HIGH
 
-// treabot_globals.h
+// treatbot_globals.h
 #endif

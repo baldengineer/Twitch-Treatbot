@@ -64,3 +64,4 @@ kicad/schematic-positions-to-layout.debug
 *.7z
 code/include/README
 code/lib/README
+code/include/treatbot_config.h

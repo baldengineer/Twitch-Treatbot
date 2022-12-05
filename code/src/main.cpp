@@ -1,16 +1,16 @@
-#include <Arduino.h>
+#include "main.h"
 
 void setup() {
   delay(500);
   Serial.begin(115200);
   Serial.println("Hello ESP32");
+  setup_wifi();
+  setup_mqtt();
+  pinMode(KEEPALIVE_LED_Pin, OUTPUT);
 }
 
 void loop() {
-  static uint32_t previous_millis = 0;
-  
-  if(millis() - previous_millis >= 1000) {
-    previous_millis = millis();
-    Serial.println(millis());
-  }
+  client.loop();
+  do_heartbeat_led();
+  delay(100);
 }
