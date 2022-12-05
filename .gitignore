@@ -65,3 +65,4 @@ kicad/schematic-positions-to-layout.debug
 code/include/README
 code/lib/README
 code/include/treatbot_config.h
+code/include/ca_cert.h
