@@ -1,5 +1,6 @@
 
 #include "treatbot_globals.h"
+#include "candy_test.h"
 
 // OLED Display
 #include <Wire.h>
@@ -21,6 +22,7 @@ void setup_oled() {
   } else {
     Serial.println(F("done"));
   }
+  oled_clear();
 }
 
  void print_message(String message) {
@@ -46,11 +48,18 @@ void setup_oled() {
   return current_row;
 }
 
-//  void oled_clear() {
-//     display.clearDisplay();
-//     display.setRotation(2);
-//     display.setTextSize(2);             // Normal 1:1 pixel scale
-//     display.setTextColor(SSD1306_WHITE);        // Draw white text
-//     display.setTextWrap(false);  // clip text that is too long
-//     display.setCursor(0, 0);            // Start at top-left corner
-// }
+void candy_test() {
+  oled_clear();
+  display.drawBitmap(0, 0, epd_bitmap_noun_hersheys_kiss_2770614_128x64, 128, 64, SSD1306_WHITE); // example has 64,64 for some reason
+  display.display();
+  long_delay(5000);
+}
+
+ void oled_clear() {
+    display.clearDisplay();
+    display.setRotation(2);
+    display.setTextSize(2);             // Normal 1:1 pixel scale
+    display.setTextColor(SSD1306_WHITE);        // Draw white text
+    display.setTextWrap(false);  // clip text that is too long
+    display.setCursor(0, 0);            // Start at top-left corner
+}

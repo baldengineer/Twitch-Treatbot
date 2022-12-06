@@ -27,6 +27,8 @@ extern void setup_mqtt();
 
 // Display
 void print_message(String message);
+void oled_clear();
+void candy_test();
 #define OLED_LCD_ADDRESS 0x3C
 
 // Blinky

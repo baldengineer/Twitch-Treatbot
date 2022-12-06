@@ -1,6 +1,8 @@
 .gitattributes
 .gitignore
 
+graphics/*
+
 # Prerequisites
 *.d
 

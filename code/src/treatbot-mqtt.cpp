@@ -29,6 +29,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
     //   arm_indicator_countdown = true;
     //   previous_indicator_millis = millis();
     Serial.println("1 for dispense");
+    candy_test();
     }
   } else if (topic_str == "stream/treat-counter-text") {
     Serial.println(F("Processing stream/treat-counter-text"));
