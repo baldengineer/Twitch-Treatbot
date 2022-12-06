@@ -15,6 +15,7 @@ void setup() {
 
   setup_oled();
   print_message("TreatBot32");
+  setup_mp3();
   setup_wifi();
   setup_mqtt();
   

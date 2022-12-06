@@ -34,7 +34,12 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   } else if (topic_str == "stream/treat-counter-text") {
     Serial.println(F("Processing stream/treat-counter-text"));
     if ((char)payload[0] == '1') {
-      //mp3Play(3);
+      mp3_play(3);
+    }
+  } else if (topic_str == "stream/twitch-attn-indi") {
+    if ((char)payload[0] == '1') {
+      print_message("ATTN!!");
+      mp3_play(2);
     }
   }
 }
@@ -54,6 +59,7 @@ void mqtt_reconnect() {
 
       // MQTT topics for subscription
       client.subscribe("stream/dispense-treat-toggle");
+      client.subscribe("stream/twitch-attn-indi");
       //client.subscribe("stream/treat-counter-text");
       print_message("Sub'd");
 

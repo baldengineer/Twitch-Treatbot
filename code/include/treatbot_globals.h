@@ -5,10 +5,15 @@
 #include "treatbot_config.h"
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
+#include <SparkFun_Qwiic_MP3_Trigger_Arduino_Library.h>
 
 // main.cpp
 extern unsigned long heartbeat_led_interval;
 #define SERIAL_PORT_WAIT_TIMEOUT 10000
+
+// mp3 player
+void mp3_status();
+void mp3_play(int track);
 
 // utils.cpp
 extern void long_delay(uint32_t milliseconds);

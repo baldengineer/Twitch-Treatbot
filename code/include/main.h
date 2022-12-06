@@ -2,6 +2,7 @@
 
 extern PubSubClient client;
 void setup_oled();
+void setup_mp3();
 extern void do_heartbeat_led();
 void mqtt_stay_alive();
 void handle_buttons();
