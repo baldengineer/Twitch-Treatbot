@@ -38,8 +38,8 @@ void scan_wifi() {
 
 void setup_wifi() {
   delay(10);
-  Serial.print("\nConnecting to '");
-  Serial.print(WIFI_SSID); Serial.println("'");
+  print_message("WiFi");
+  print_message(WIFI_SSID);
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
@@ -52,5 +52,4 @@ void setup_wifi() {
   Serial.println("\nWiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-
 }

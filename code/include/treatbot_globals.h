@@ -8,6 +8,7 @@
 
 // main.cpp
 extern unsigned long heartbeat_led_interval;
+#define SERIAL_PORT_WAIT_TIMEOUT 10000
 
 // utils.cpp
 extern void long_delay(uint32_t milliseconds);
@@ -23,6 +24,10 @@ extern void mqtt_reconnect();
 extern String mqtt_status_str(int state);
 extern void display_mqtt_state(bool force_update);
 extern void setup_mqtt();
+
+// Display
+void print_message(String message);
+#define OLED_LCD_ADDRESS 0x3C
 
 // Blinky
 #define HEARTBEAT_LED_ON 50

@@ -5,6 +5,7 @@ void do_heartbeat_led() {
   static bool led_state = true;
   static uint32_t next_interval = HEARTBEAT_LED_ON;
 
+  yield();
   uint32_t current_millis = millis();
   if (current_millis - previous_millis >= next_interval) {
     previous_millis = current_millis;
