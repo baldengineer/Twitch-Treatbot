@@ -10,7 +10,7 @@ void setup() {
 }
 
 void loop() {
-  client.loop();
+  mqtt_stay_alive();
   do_heartbeat_led();
   delay(100);
 }

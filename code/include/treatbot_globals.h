@@ -33,6 +33,10 @@ extern void setup_mqtt();
 #define KEEPALIVE_LED_Pin 13
 
 //  Stepper Motor
+#define CW 0x1
+#define CCW 0x0 
+#define SPIN_AMOUNT 1000
+#define SPIN_SPEED  1000
 #define EN_PIN           12 // Enable
 #define DIR_PIN          14 // Direction
 #define STEP_PIN         13 // Step

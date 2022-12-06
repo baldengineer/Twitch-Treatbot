@@ -4,6 +4,14 @@
 PubSubClient client(espClient);
 uint8_t previous_mqtt_status = 0;
 
+void mqtt_stay_alive() {
+    // Stay Connected and keep MQTT alive
+  if (!client.connected())
+    mqtt_reconnect();
+  client.loop();
+  display_mqtt_state(false); 
+}
+
 void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   String topic_str = topic;
 
