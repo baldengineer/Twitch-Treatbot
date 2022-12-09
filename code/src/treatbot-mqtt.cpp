@@ -21,7 +21,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println();
 
-// This comparison works because the Arduino String object supports ==!
+// This comparison works because the Arduino String object supports ==
   if (topic_str == "stream/dispense-treat-toggle") {
     Serial.println(F("Processing stream/dispense-treat-toggle"));
     if ((char)payload[0] == '1') {
