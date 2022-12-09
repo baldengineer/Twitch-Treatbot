@@ -50,7 +50,7 @@ void candy_test();
 #define SPIN_AMOUNT 1000
 #define SPIN_SPEED  1000
 #define STEP_EN_PIN           19 // Enable (12)
-#define STEP_PIN         18 // Step (13)
+#define STEP_PIN         18 //  (13)
 #define DIR_PIN          5 // Direction (14)
 
 //#define R_SENSE 0.11f // Match to your driver (not used)

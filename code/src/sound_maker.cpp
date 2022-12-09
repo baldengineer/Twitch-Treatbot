@@ -22,7 +22,8 @@ void mp3_play(int track) {
 
     char msg[10];
     sprintf(msg, "Track %d", track);
-    print_message(msg);
+    //print_message(msg);
+    Serial.print(msg);
     mp3.playFile(track);
     mp3_status();
 }

@@ -3,7 +3,6 @@
 //extern void handle_treats();
 extern void setup_stepper_motor();
 extern void setup_pixel_panel();
-extern bool  pixel_panel_enable;
 extern void  process_pixels();
 
 void setup() {
@@ -32,6 +31,5 @@ void loop() {
   do_motor_tasks();
  // handle_treats();
   do_heartbeat_led();
-  pixel_panel_enable = true;
   process_pixels();
 }

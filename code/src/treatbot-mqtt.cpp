@@ -104,6 +104,11 @@ void display_mqtt_state(bool force_update) {
   }
 }
 
+void turn_off_scene() {
+  // Clear the dispense flag for OBS
+  client.publish("stream/dispense-treat-toggle", "0");
+}
+
 String mqtt_status_str(int state) {
   switch (state) {
     case MQTT_CONNECTION_TIMEOUT:
@@ -141,5 +146,4 @@ String mqtt_status_str(int state) {
       break;
   }
   return "No can haz.";
-
 }

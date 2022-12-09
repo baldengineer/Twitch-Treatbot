@@ -1,6 +1,8 @@
 #include "treatbot_globals.h"
 
 extern void start_treats_cycle();
+extern void mp3_play(int track);
+extern void turn_off_scene();
 extern bool pixel_panel_enable;
 extern uint32_t pixel_previous_millis;
 
@@ -69,7 +71,11 @@ void dispense_cycle() {
   // Hershey Kisses: 600,250,15
   pixel_panel_enable = true;
   pixel_previous_millis = millis();
+
+  mp3_play(3);
+  long_delay(2500);
   shake_em_mms(600, 250, 15);
   spin_for_treats(false);
   pixel_panel_enable = false;
+  turn_off_scene();
 }
