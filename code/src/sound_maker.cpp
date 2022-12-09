@@ -6,6 +6,7 @@ MP3TRIGGER mp3;
 uint8_t mp3_volume = 18;
 
 void setup_mp3() {
+  print_message("MP3");
   if (mp3.begin() == false) {
     print_message("MP3 Fail");
   } else {
