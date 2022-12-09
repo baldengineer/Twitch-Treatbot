@@ -4,6 +4,8 @@
 PubSubClient client(espClient);
 uint8_t previous_mqtt_status = 0;
 
+void extern start_treats_cycle();
+
 void mqtt_stay_alive() {
     // Stay Connected and keep MQTT alive
   if (!client.connected())
@@ -25,11 +27,10 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
   if (topic_str == "stream/dispense-treat-toggle") {
     Serial.println(F("Processing stream/dispense-treat-toggle"));
     if ((char)payload[0] == '1') {
-    //   start_treats_cycle();
-    //   arm_indicator_countdown = true;
-    //   previous_indicator_millis = millis();
-    Serial.println("1 for dispense");
-    candy_test();
+      // arm_indicator_countdown = true;
+      // previous_indicator_millis = millis();
+      Serial.println("1 for dispense");
+      start_treats_cycle();
     }
   } else if (topic_str == "stream/treat-counter-text") {
     Serial.println(F("Processing stream/treat-counter-text"));

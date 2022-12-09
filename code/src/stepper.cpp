@@ -1,6 +1,8 @@
 #include "treatbot_globals.h"
 
 extern void start_treats_cycle();
+extern bool pixel_panel_enable;
+extern uint32_t pixel_previous_millis;
 
 void setup_stepper_motor() {
   print_message("Motor");
@@ -65,6 +67,9 @@ void spin_for_treats(bool direction) {
 void dispense_cycle() {
   //    Almond M&Ms: 350,400,10
   // Hershey Kisses: 600,250,15
+  pixel_panel_enable = true;
+  pixel_previous_millis = millis();
   shake_em_mms(600, 250, 15);
   spin_for_treats(false);
+  pixel_panel_enable = false;
 }

@@ -2,6 +2,10 @@
 
 //extern void handle_treats();
 extern void setup_stepper_motor();
+extern void setup_pixel_panel();
+extern bool  pixel_panel_enable;
+extern void  process_pixels();
+
 void setup() {
   pinMode(WIGGLE_BTN, INPUT_PULLUP);
   pinMode(KEEPALIVE_LED_Pin, OUTPUT);
@@ -16,6 +20,7 @@ void setup() {
   setup_oled();
   print_message("TreatBot32");
   setup_stepper_motor();
+  setup_pixel_panel();
   setup_mp3();
   setup_wifi();
   setup_mqtt();
@@ -27,4 +32,6 @@ void loop() {
   do_motor_tasks();
  // handle_treats();
   do_heartbeat_led();
+  pixel_panel_enable = true;
+  process_pixels();
 }
