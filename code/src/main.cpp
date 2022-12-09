@@ -1,6 +1,9 @@
 #include "main.h"
 
+//extern void handle_treats();
+extern void setup_stepper_motor();
 void setup() {
+  pinMode(WIGGLE_BTN, INPUT_PULLUP);
   pinMode(KEEPALIVE_LED_Pin, OUTPUT);
   digitalWrite(KEEPALIVE_LED_Pin, HIGH);
   Serial.begin(115200);  // wait for serial, but not for too long.
@@ -12,7 +15,7 @@ void setup() {
 
   setup_oled();
   print_message("TreatBot32");
-  
+  setup_stepper_motor();
   setup_mp3();
   setup_wifi();
   setup_mqtt();
@@ -22,5 +25,6 @@ void loop() {
   mqtt_stay_alive();
   handle_buttons();
   do_motor_tasks();
+ // handle_treats();
   do_heartbeat_led();
 }

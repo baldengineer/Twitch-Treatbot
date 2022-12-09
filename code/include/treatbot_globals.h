@@ -41,7 +41,7 @@ void candy_test();
 #define HEARTBEAT_LED_OFF 2500
 
 // Pin Assignments
-#define WIGGLE_BTN 3
+#define WIGGLE_BTN 16  // 3 was for ESP8266
 #define KEEPALIVE_LED_Pin 13
 
 //  Stepper Motor
@@ -49,9 +49,10 @@ void candy_test();
 #define CCW 0x0 
 #define SPIN_AMOUNT 1000
 #define SPIN_SPEED  1000
-#define EN_PIN           12 // Enable
-#define DIR_PIN          14 // Direction
-#define STEP_PIN         13 // Step
+#define STEP_EN_PIN           19 // Enable (12)
+#define STEP_PIN         18 // Step (13)
+#define DIR_PIN          5 // Direction (14)
+
 //#define R_SENSE 0.11f // Match to your driver (not used)
 
 // Nice To Have

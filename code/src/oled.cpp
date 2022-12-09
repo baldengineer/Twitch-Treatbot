@@ -53,7 +53,6 @@ void candy_test() {
   Serial.println("Drawing Candy");
   display.drawBitmap(0, 0, epd_bitmap_noun_hersheys_kiss_2770614_128x64, 128, 64, SSD1306_WHITE); // example has 64,64 for some reason
   display.display();
-  long_delay(5000);
 }
 
  void oled_clear() {
