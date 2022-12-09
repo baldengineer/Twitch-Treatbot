@@ -38,8 +38,3 @@
 
 #define MQTT_USERNAME  "HAHAHA"
 #define MQTT_PASSWORD  "hunter2"
-
-// SHA1
-// get this from looking at SSL cert in web browser
-// updates with let's encrypt - should be a long string of HEX digits
-static const char *fingerprint PROGMEM = "";
